@@ -11,6 +11,12 @@ namespace Stu_Dunan_RPG
         public float moveAmount;
         public float mouseX;
         public float mouseY;
+        public float rollInputTimer;
+
+        public bool b_input;
+        public bool isInteracting;
+        public bool rollFlag;
+        public bool sprintFlag;
 
         PlayerControls inputActions;                                                    // From Player Controller Input Manager.
         CameraHandler cameraHandler;
@@ -18,7 +24,7 @@ namespace Stu_Dunan_RPG
         Vector2 movementInput;
         Vector2 cameraInput;
 
-        private void Awake()
+        private void Start()
         {
             cameraHandler = CameraHandler.singleton;
         }
@@ -58,6 +64,7 @@ namespace Stu_Dunan_RPG
         public void TickInput(float delta)
         {
             MoveInput(delta);
+            HandleRollInput(delta);
         }
 
         private void MoveInput(float delta)
@@ -67,6 +74,28 @@ namespace Stu_Dunan_RPG
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
             mouseX = cameraInput.x;
             mouseY = cameraInput.y;
+        }
+
+        private void HandleRollInput(float delta)
+        {
+            b_input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+
+            if (b_input)
+            {
+                // rollFlag = true;
+                rollInputTimer += delta;
+                sprintFlag = true;
+            }
+            else
+            {
+                if (rollInputTimer > 0 && rollInputTimer < 0.5f)
+                {
+                    sprintFlag = false;
+                    rollFlag = true;
+                }
+
+                rollInputTimer = 0;
+            }
         }
     }
 }
