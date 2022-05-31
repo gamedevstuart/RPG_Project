@@ -13,9 +13,27 @@ namespace Stu_Dunan_RPG
         public float mouseY;
 
         PlayerControls inputActions;                                                    // From Player Controller Input Manager.
+        CameraHandler cameraHandler;
 
         Vector2 movementInput;
         Vector2 cameraInput;
+
+        private void Awake()
+        {
+            cameraHandler = CameraHandler.singleton;
+        }
+
+        private void FixedUpdate()
+        {
+            float delta = Time.deltaTime;
+
+            if (cameraHandler != null)
+            {
+                cameraHandler.FollowTarget(delta);
+                cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
+
+            }
+        }
 
         public void OnEnable()                                                          // Enable Player Control Input Manager.
         {
