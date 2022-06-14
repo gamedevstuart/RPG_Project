@@ -14,32 +14,14 @@ namespace Stu_Dunan_RPG
         public float rollInputTimer;
 
         public bool b_input;
-        public bool isInteracting;
         public bool rollFlag;
         public bool sprintFlag;
 
         PlayerControls inputActions;                                                    // From Player Controller Input Manager.
-        CameraHandler cameraHandler;
+
 
         Vector2 movementInput;
         Vector2 cameraInput;
-
-        private void Start()
-        {
-            cameraHandler = CameraHandler.singleton;
-        }
-
-        private void FixedUpdate()
-        {
-            float delta = Time.deltaTime;
-
-            if (cameraHandler != null)
-            {
-                cameraHandler.FollowTarget(delta);
-                cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
-
-            }
-        }
 
         public void OnEnable()                                                          // Enable Player Control Input Manager.
         {

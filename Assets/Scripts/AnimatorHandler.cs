@@ -6,9 +6,11 @@ namespace Stu_Dunan_RPG
 {
     public class AnimatorHandler : MonoBehaviour
     {
+        PlayerManager playerManager;
+
         public Animator anim;
-        public InputHandler inputHandler;
-        public PlayerLocomotion playerLocomotion;
+        InputHandler inputHandler;
+        PlayerLocomotion playerLocomotion;
 
         int vertical;
         int horizontal;
@@ -16,6 +18,7 @@ namespace Stu_Dunan_RPG
 
         public void Initialize()
         {
+            playerManager = GetComponentInParent<PlayerManager>();
             anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
@@ -106,9 +109,11 @@ namespace Stu_Dunan_RPG
 
         private void OnAnimatorMove()
         {
-            if (inputHandler.isInteracting == false)
+            if (playerManager.isInteracting == false)
+            {
                 return;
-
+            }
+                
             float delta = Time.deltaTime;
             playerLocomotion.rigidbody.drag = 0;
             Vector3 deltaPosition = anim.deltaPosition;
